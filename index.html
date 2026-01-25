@@ -1,12 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Scalyy – IPO Allotment & GMP</title>
-  <meta name="description" content="Check IPO allotment status, IPO GMP, Grey Market Premium and IPO updates on Scalyy.">
+  <title>Scalyy – IPO Allotment Links</title>
+  <meta name="description" content="Fastest access to latest IPO allotment links">
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; }
+    .container { max-width: 700px; margin: auto; }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 25px;
+    }
+    .main {
+      grid-column: span 2;
+      background: #000;
+      color: #fff;
+      padding: 18px;
+      border-radius: 10px;
+      font-size: 18px;
+      text-decoration: none;
+    }
+    .box {
+      background: #f2f2f2;
+      padding: 15px;
+      border-radius: 10px;
+      text-decoration: none;
+      color: #000;
+      font-size: 16px;
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Welcome to Scalyy</h1>
-  <p>IPO Allotment & GMP tracking platform 🚀</p>
+
+<h2>Latest IPO Allotment Links</h2>
+
+<div class="container">
+  <div id="ipoGrid" class="grid"></div>
+</div>
+
+<script>
+const sheetURL = "https://opensheet.elk.sh/1nA4UInwWIzoHutAZp1KRrybIIVi7wufTfDIbrbvpT8U/IPOS";
+
+fetch(sheetURL)
+  .then(res => res.json())
+  .then(data => {
+    const top3 = data.slice(0, 3); // only first 3 rows
+    let html = "";
+
+    if (top3[0]) {
+      html += `<a class="main" href="${top3[0].link}" target="_blank">
+                ${top3[0].company}
+              </a>`;
+    }
+    if (top3[1]) {
+      html += `<a class="box" href="${top3[1].link}" target="_blank">
+                ${top3[1].company}
+              </a>`;
+    }
+    if (top3[2]) {
+      html += `<a class="box" href="${top3[2].link}" target="_blank">
+                ${top3[2].company}
+              </a>`;
+    }
+
+    document.getElementById("ipoGrid").innerHTML = html;
+  });
+</script>
+
 </body>
 </html>
