@@ -1,73 +1,142 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Scalyy – IPO Allotment Links</title>
-  <meta name="description" content="Fastest access to latest IPO allotment links">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; }
-    .container { max-width: 700px; margin: auto; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #ffffff;
+      font-family: Arial, sans-serif;
+      color: #000;
+      text-align: center;
+    }
+
+    h2 {
+      margin-top: 30px;
+      font-weight: 600;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
     .grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-top: 25px;
+      gap: 20px;
     }
+
+    /* 🔥 MAIN IPO (BIGGEST) */
     .main {
       grid-column: span 2;
       background: #000;
-      color: #fff;
-      padding: 18px;
-      border-radius: 10px;
-      font-size: 18px;
+      padding: 28px;
+      border-radius: 14px;
+      font-size: 26px;          /* BIGGEST */
+      font-weight: bold;
       text-decoration: none;
+      animation: blinkColor 1.6s infinite;
+      border: 2px solid #111;
     }
+
+    /* 🔥 2nd & 3rd IPO (SLIGHTLY SMALLER BUT STILL BIG) */
     .box {
-      background: #f2f2f2;
-      padding: 15px;
-      border-radius: 10px;
+      background: #000;
+      padding: 20px;
+      border-radius: 12px;
+      font-size: 19px;          /* Smaller than main, but prominent */
+      font-weight: 600;
       text-decoration: none;
-      color: #000;
-      font-size: 16px;
+      animation: blinkColor 2s infinite;
+      border: 1.5px solid #111;
+    }
+
+    /* 🎯 Blinking / attention animation */
+    @keyframes blinkColor {
+      0%   { color: #ffffff; }
+      25%  { color: #ff5252; }
+      50%  { color: #00c8ff; }
+      75%  { color: #00e676; }
+      100% { color: #ffffff; }
+    }
+
+    /* Hover makes it even more clickable */
+    .main:hover,
+    .box:hover {
+      transform: scale(1.03);
+      transition: transform 0.2s;
+    }
+
+    footer {
+      margin-top: 60px;
+      padding: 16px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    footer span {
+      font-weight: 700;
+    }
+
+    @media (max-width: 600px) {
+      .main {
+        font-size: 22px;
+        padding: 22px;
+      }
+      .box {
+        font-size: 17px;
+        padding: 18px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-<h2>Latest IPO Allotment Links</h2>
+  <h2>Latest IPO Allotment Links</h2>
 
-<div class="container">
-  <div id="ipoGrid" class="grid"></div>
-</div>
+  <div class="container">
+    <div id="ipoGrid" class="grid"></div>
+  </div>
 
-<script>
-const sheetURL = "https://opensheet.elk.sh/1nA4UInwWIzoHutAZp1KRrybIIVi7wufTfDIbrbvpT8U/IPOS";
+  <footer>
+    To check any IPO result visit <span>scalyy.com</span>
+  </footer>
 
-fetch(sheetURL)
-  .then(res => res.json())
-  .then(data => {
-    const top3 = data.slice(0, 3); // only first 3 rows
-    let html = "";
+  <script>
+    const sheetURL = "https://opensheet.elk.sh/1nA4UInwWIzoHutAZp1KRrybIIVi7wufTfDIbrbvpT8U/IPOS";
 
-    if (top3[0]) {
-      html += `<a class="main" href="${top3[0].link}" target="_blank">
-                ${top3[0].company}
-              </a>`;
-    }
-    if (top3[1]) {
-      html += `<a class="box" href="${top3[1].link}" target="_blank">
-                ${top3[1].company}
-              </a>`;
-    }
-    if (top3[2]) {
-      html += `<a class="box" href="${top3[2].link}" target="_blank">
-                ${top3[2].company}
-              </a>`;
-    }
+    fetch(sheetURL)
+      .then(res => res.json())
+      .then(data => {
+        const top3 = data.slice(0, 3);
+        let html = "";
 
-    document.getElementById("ipoGrid").innerHTML = html;
-  });
-</script>
+        if (top3[0]) {
+          html += `<a class="main" href="${top3[0].link}" target="_blank">
+                     ${top3[0].company}
+                   </a>`;
+        }
+        if (top3[1]) {
+          html += `<a class="box" href="${top3[1].link}" target="_blank">
+                     ${top3[1].company}
+                   </a>`;
+        }
+        if (top3[2]) {
+          html += `<a class="box" href="${top3[2].link}" target="_blank">
+                     ${top3[2].company}
+                   </a>`;
+        }
+
+        document.getElementById("ipoGrid").innerHTML = html;
+      });
+  </script>
 
 </body>
 </html>
