@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <!-- SEO TITLE -->
+  <title>Latest IPO Allotment Status Today | Check IPO Result Fast – Scalyy</title>
+
+  <!-- SEO DESCRIPTION -->
+  <meta name="description" content="Check latest IPO allotment status today. Fastest access to official IPO result links from registrars like KFin, Link Intime and MUFG.">
+
+  <!-- SEO / MOBILE -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="index, follow">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      color: #000;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 28px;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .seo-text {
+      max-width: 850px;
+      margin: 15px auto 30px;
+      font-size: 15px;
+      color: #444;
+      line-height: 1.6;
+      padding: 0 15px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    /* MAIN IPO (BIGGEST) */
+    .main {
+      grid-column: span 2;
+      background: #000;
+      padding: 30px;
+      border-radius: 14px;
+      font-size: 26px;
+      font-weight: bold;
+      text-decoration: none;
+      animation: blinkColor 1.6s infinite;
+      border: 2px solid #111;
+    }
+
+    /* SECONDARY IPOs */
+    .box {
+      background: #000;
+      padding: 22px;
+      border-radius: 12px;
+      font-size: 19px;
+      font-weight: 600;
+      text-decoration: none;
+      animation: blinkColor 2s infinite;
+      border: 1.5px solid #111;
+    }
+
+    /* BLINKING COLOR ANIMATION */
+    @keyframes blinkColor {
+      0%   { color: #ffffff; }
+      25%  { color: #ff5252; }
+      50%  { color: #00c8ff; }
+      75%  { color: #00e676; }
+      100% { color: #ffffff; }
+    }
+
+    .main:hover,
+    .box:hover {
+      transform: scale(1.04);
+      transition: transform 0.2s;
+    }
+
+    footer {
+      margin-top: 60px;
+      padding: 18px;
+      font-size: 14px;
+      color: #444;
+      border-top: 1px solid #eee;
+    }
+
+    footer span {
+      font-weight: 700;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 24px;
+      }
+      .main {
+        font-size: 22px;
+        padding: 24px;
+      }
+      .box {
+        font-size: 17px;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- H1 FOR SEO -->
+  <h1>Latest IPO Allotment Status Today</h1>
+
+  <!-- SEO TEXT -->
+  <div class="seo-text">
+    Scalyy helps investors quickly check the latest IPO allotment status using official registrar links.
+    We provide fast access to IPO result pages so you don’t waste time searching across multiple websites.
+    All links are updated on allotment days for quick and accurate results.
+  </div>
+
+  <!-- IPO LINKS -->
+  <div class="container">
+    <div id="ipoGrid" class="grid"></div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    To check any IPO result, visit <span>scalyy.in</span>
+  </footer>
+
+  <!-- GOOGLE SHEET DATA -->
+  <script>
+    const sheetURL = "https://opensheet.elk.sh/1nA4UInwWIzoHutAZp1KRrybIIVi7wufTfDIbrbvpT8U/IPOS";
+
+    fetch(sheetURL)
+      .then(res => res.json())
+      .then(data => {
+        const top3 = data.slice(0, 3);
+        let html = "";
+
+        if (top3[0]) {
+          html += `<a class="main" href="${top3[0].link}" target="_blank" rel="noopener">
+                     ${top3[0].company}
+                   </a>`;
+        }
+        if (top3[1]) {
+          html += `<a class="box" href="${top3[1].link}" target="_blank" rel="noopener">
+                     ${top3[1].company}
+                   </a>`;
+        }
+        if (top3[2]) {
+          html += `<a class="box" href="${top3[2].link}" target="_blank" rel="noopener">
+                     ${top3[2].company}
+                   </a>`;
+        }
+
+        document.getElementById("ipoGrid").innerHTML = html;
+      });
+  </script>
+
+</body>
+</html>
