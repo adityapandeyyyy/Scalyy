@@ -1,36 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Live Silver Price per Kg Today – Scalyy</title>
-  <meta name="description" content="Track live silver price per kg in India, updated every minute.">
+  <meta charset="UTF-8">
+
+  <title>Live Silver Price Today | International & India – Scalyy</title>
+
+  <meta name="description" content="Check live silver price today. View international silver price in USD and Indian silver price per kg in INR on Scalyy.">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      background: #fff;
+      background: #ffffff;
       margin: 0;
-      padding: 40px;
+      padding: 40px 20px;
     }
 
     h1 {
       font-size: 28px;
+      font-weight: 700;
     }
 
-    #price {
-      font-size: 40px;
-      font-weight: bold;
-      margin-top: 20px;
+    .nav {
+      margin-top: 18px;
     }
 
-    .box {
+    .nav a {
+      background: black;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .price-box {
       background: #000;
       color: white;
       display: inline-block;
-      padding: 25px 45px;
-      border-radius: 14px;
-      margin-top: 30px;
+      padding: 28px 50px;
+      border-radius: 16px;
+      margin-top: 35px;
+      min-width: 280px;
+    }
+
+    .label {
+      font-size: 14px;
+      color: #ccc;
+      margin-bottom: 6px;
+    }
+
+    .price {
+      font-size: 38px;
+      font-weight: bold;
       animation: blink 1.5s infinite;
     }
 
@@ -40,40 +65,66 @@
       100% { color: white; }
     }
 
-    .small {
-      margin-top: 15px;
+    .note {
+      margin-top: 25px;
       font-size: 14px;
       color: #444;
+      line-height: 1.6;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    footer {
+      margin-top: 70px;
+      font-size: 14px;
+      color: #333;
+      border-top: 1px solid #eee;
+      padding-top: 15px;
+    }
+
+    footer span {
+      font-weight: 700;
     }
   </style>
 </head>
 
 <body>
 
-  <h1>Live Silver Price Today (Per KG)</h1>
-   <div style="margin-top:20px;">
-    <a href="ipo.html"
-       style="background:black;color:white;
-              padding:12px 25px;
-              border-radius:10px;
-              text-decoration:none;
-              font-weight:600;">
-      Check Latest IPO Allotment Links →
-    </a>
+  <h1>Live Silver Price Today</h1>
+
+  <!-- <!-- Navigation -->
+  <!-- <div class="nav">
+    <a href="ipo.html">Check Latest IPO Allotment Links →</a>
+  </div> --> -->
+
+  <!-- INTERNATIONAL PRICE -->
+  <div class="price-box">
+    <div class="label">International Silver Price (Spot)</div>
+    <div id="usdPrice" class="price">Loading...</div>
   </div>
 
-  <div class="box">
-    <div id="price">Loading...</div>
+  <!-- INDIAN PRICE -->
+  <div class="price-box">
+    <div class="label">Silver Price in India (Approx)</div>
+    <div id="inrPrice" class="price">Loading...</div>
   </div>
 
-  <div class="small">
-     Track your Silver!
+  <div class="note">
+    International silver price is based on global spot market (USD per troy ounce).
+    Indian price is calculated using current exchange rate and includes estimated taxes,
+    import duty and market premium. Prices are indicative.
   </div>
+
+  <footer>
+    Visit <span>scalyy.in</span> for silver prices!
+    <!-- & IPO allotment links -->
+  </footer>
 
   <script>
     async function fetchSilverPrice() {
       try {
-        // 🔑 PUT YOUR API KEY HERE
+        // 🔑 YOUR GOLDAPI KEY
         const apiKey = "goldapi-1b6fesmll5u7fe-io";
 
         const response = await fetch("https://www.goldapi.io/api/XAG/USD", {
@@ -85,41 +136,36 @@
 
         const data = await response.json();
 
-        // Price per ounce in USD
+        /* -------------------------
+           INTERNATIONAL PRICE
+        --------------------------*/
         const pricePerOunceUSD = data.price;
+        document.getElementById("usdPrice").innerHTML =
+          "$" + pricePerOunceUSD.toFixed(2) + " / oz";
 
-        // Convert ounce → kg
-        const pricePerKgUSD = pricePerOunceUSD * 32.1507;
+        /* -------------------------
+           INDIAN PRICE CALCULATION
+        --------------------------*/
+        const ounceToKg = 32.1507;
+        const usdToInr = 91;          // approx rate
+        const premiumFactor = 1.23;   // India taxes + premium
 
-        // USD → INR Approx
-        const usdToInr = 91;
+        const pricePerKgUSD = pricePerOunceUSD * ounceToKg;
+        const spotInr = pricePerKgUSD * usdToInr;
+        const indianPrice = spotInr * premiumFactor;
 
-        // Final INR/kg
-        const pricePerKgINR = pricePerKgUSD * usdToInr;
+        document.getElementById("inrPrice").innerHTML =
+          "₹" + indianPrice.toFixed(0) + " / kg";
 
-
-       const premiumFactor = 1.23;
-
-       const indianMarketPrice = pricePerKgINR * premiumFactor;
-
-       document.getElementById("price").innerHTML =
-       "₹" + indianMarketPrice.toFixed(0) + " / kg (India)";
-
-
-        
-      } catch (error) {
-        document.getElementById("price").innerHTML =
-          "Error loading price ❌";
+      } catch (err) {
+        document.getElementById("usdPrice").innerHTML = "Error";
+        document.getElementById("inrPrice").innerHTML = "Error";
       }
     }
 
-    // Run once immediately
+    // Run once when page loads
     fetchSilverPrice();
-
-    // Refresh every 60 seconds
-    setInterval(fetchSilverPrice, 86400000);
   </script>
 
 </body>
 </html>
-
