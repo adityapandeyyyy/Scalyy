@@ -87,9 +87,17 @@
         // Final INR/kg
         const pricePerKgINR = pricePerKgUSD * usdToInr;
 
-        document.getElementById("price").innerHTML =
-          "₹" + pricePerKgINR.toFixed(0) + " / kg";
+        const premiumFactor = 1.23;
 
+       const premiumFactor = 1.23;
+
+       const indianMarketPrice = pricePerKgINR * premiumFactor;
+
+       document.getElementById("price").innerHTML =
+       "₹" + indianMarketPrice.toFixed(0) + " / kg (India)";
+
+
+        
       } catch (error) {
         document.getElementById("price").innerHTML =
           "Error loading price ❌";
